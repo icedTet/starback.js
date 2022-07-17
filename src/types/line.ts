@@ -21,7 +21,6 @@ class Line implements StarType {
     quantity: 200,
   }
   direction = 225
-  speedMultiplier = 1
   /** @type {HTMLCanvasElement} */
   canvas = null
 
@@ -58,9 +57,9 @@ class Line implements StarType {
       this.ctx.restore()
     })
   }
-  update() {
+  update(speedMultiplier = 1) {
     this.stars.map((star, index) => {
-      star.progress += star.speed
+      star.progress += star.speed * speedMultiplier
       // if(star.y - star.height > this.canvas.height) return stars.splice(index,1)
     })
   }
@@ -101,9 +100,6 @@ class Line implements StarType {
       })
     }
     return this.stars
-  }
-  setSpeedMultiplier(multiplier: number) {
-    this.speedMultiplier = multiplier
   }
 }
 

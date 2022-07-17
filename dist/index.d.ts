@@ -41,7 +41,7 @@ interface StarbackInterface {
 interface StarType {
     config: StarbackConfig;
     draw: () => void;
-    update: () => void;
+    update: (speedMultiplier?: number) => void;
     generate: (quantity: number) => void;
 }
 
@@ -75,16 +75,14 @@ declare class Line implements StarType {
     stars: any[];
     config: StarLineConfig;
     direction: number;
-    speedMultiplier: number;
     /** @type {HTMLCanvasElement} */
     canvas: any;
     /** @type {CanvasRenderingContext2D} */
     ctx: any;
     constructor(canvas: any, config: any);
     draw(): void;
-    update(): void;
+    update(speedMultiplier?: number): void;
     generate(): any[];
-    setSpeedMultiplier(multiplier: number): void;
 }
 
 /**
@@ -103,6 +101,7 @@ declare class Starback implements StarbackInterface {
     };
     fps: number;
     private repeat;
+    speedMultiplier: number;
     private lastCalledTime;
     private lastGenerated;
     private frontCallbacks;
@@ -150,6 +149,7 @@ declare class Starback implements StarbackInterface {
      * @param {Number} amount The number of stars
      */
     generateStar(): void;
+    setSpeedMultiplier(multiplier: number): void;
     /**
      * Draw the FPS in the canvas.
      */

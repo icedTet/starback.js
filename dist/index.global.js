@@ -147,7 +147,6 @@
         quantity: 200
       };
       this.direction = 225;
-      this.speedMultiplier = 1;
       this.canvas = null;
       this.ctx = null;
       this.config = { ...this.config, ...config };
@@ -175,9 +174,9 @@
         this.ctx.restore();
       });
     }
-    update() {
+    update(speedMultiplier = 1) {
       this.stars.map((star, index) => {
-        star.progress += star.speed;
+        star.progress += star.speed * speedMultiplier;
       });
     }
     generate() {
@@ -216,9 +215,6 @@
       }
       return this.stars;
     }
-    setSpeedMultiplier(multiplier) {
-      this.speedMultiplier = multiplier;
-    }
   };
   var line_default = Line;
 
@@ -236,11 +232,12 @@
       this.stars = null;
       this.canvas = null;
       this.starTypes = {
-        "dot": dot_default,
-        "line": line_default
+        dot: dot_default,
+        line: line_default
       };
       this.fps = 0;
       this.repeat = 0;
+      this.speedMultiplier = 1;
       this.lastCalledTime = 0;
       this.lastGenerated = 0;
       this.frontCallbacks = [];
@@ -287,7 +284,7 @@
         this.drawFps();
     }
     update() {
-      this.stars.update();
+      this.stars.update(this.speedMultiplier);
     }
     addToFront(cb) {
       this.frontCallbacks.push(cb);
@@ -297,6 +294,9 @@
     }
     generateStar() {
       this.stars.generate(this.config.quantity);
+    }
+    setSpeedMultiplier(multiplier) {
+      this.speedMultiplier = multiplier;
     }
     drawFps() {
       this.ctx.fillStyle = "white";

@@ -1,6 +1,6 @@
-import { StarbackConfig, StarbackInterface, StarType } from "./types"
-import Dot from "./types/dot"
-import Line from "./types/line"
+import { StarbackConfig, StarbackInterface, StarType } from './types'
+import Dot from './types/dot'
+import Line from './types/line'
 
 /**
  * Default Config
@@ -9,10 +9,10 @@ import Line from "./types/line"
 const StarbackDefaultConfig: StarbackConfig = {
   width: 800,
   height: 600,
-  
+
   randomOpacity: true,
   showFps: false,
-  type: 'dot'
+  type: 'dot',
 }
 
 /**
@@ -21,30 +21,29 @@ const StarbackDefaultConfig: StarbackConfig = {
  */
 export default class Starback implements StarbackInterface {
   static DefaultConfig = StarbackDefaultConfig
-  
+
   private ctx
   public config: StarbackConfig = {}
   public stars: StarType = null
   public canvas = null
   public starTypes = {
-    'dot': Dot,
-    'line': Line
+    dot: Dot,
+    line: Line,
   }
   public fps = 0
   private repeat = 0
-
+  speedMultiplier = 1
   private lastCalledTime = 0
   private lastGenerated = 0
   private frontCallbacks: Function[] = []
   private behindCallbacks: Function[] = []
-
 
   /**
    * Starback library
    * @param {HTMLElement|string} Canvas element or the selector
    * @param {Object} options
    */
-  constructor(canvas: HTMLCanvasElement|string, config = {}) {
+  constructor(canvas: HTMLCanvasElement | string, config = {}) {
     this.canvas = canvas instanceof HTMLCanvasElement ? canvas : document.querySelector(canvas)
 
     this.ctx = this.canvas.getContext('2d')
@@ -56,11 +55,10 @@ export default class Starback implements StarbackInterface {
     this.frontCallbacks = []
     this.behindCallbacks = []
 
-
     this.init()
   }
 
-  static create(canvas: HTMLCanvasElement|string, config: StarbackConfig = {}) {
+  static create(canvas: HTMLCanvasElement | string, config: StarbackConfig = {}) {
     return new Starback(canvas, config)
   }
 
@@ -70,8 +68,8 @@ export default class Starback implements StarbackInterface {
    */
   private mergeConfig(instanceConfig) {
     // merge config
-    let config = {...StarbackDefaultConfig, ...instanceConfig}
-    
+    let config = { ...StarbackDefaultConfig, ...instanceConfig }
+
     // apply config
     this.config = config
   }
@@ -88,8 +86,7 @@ export default class Starback implements StarbackInterface {
 
     requestAnimationFrame((t) => this.render(t))
   }
-  
-  
+
   /**
    * Set background for the whole canvas
    */
@@ -112,9 +109,9 @@ export default class Starback implements StarbackInterface {
    * Draw the frame into the canvas
    */
   private draw() {
-    this.behindCallbacks.forEach(cb => cb(this.ctx))
+    this.behindCallbacks.forEach((cb) => cb(this.ctx))
     this.stars.draw()
-    this.frontCallbacks.forEach(cb => cb(this.ctx))
+    this.frontCallbacks.forEach((cb) => cb(this.ctx))
 
     // Show FPS if config.showFps is enabled
     if (this.config.showFps) this.drawFps()
@@ -124,7 +121,7 @@ export default class Starback implements StarbackInterface {
    * Update everything in the canvas frame including stars
    */
   private update() {
-    this.stars.update()
+    this.stars.update(this.speedMultiplier)
   }
 
   /**
@@ -150,6 +147,9 @@ export default class Starback implements StarbackInterface {
   generateStar() {
     this.stars.generate(this.config.quantity)
   }
+  setSpeedMultiplier(multiplier: number) {
+    this.speedMultiplier = multiplier
+  }
 
   /**
    * Draw the FPS in the canvas.
@@ -159,10 +159,9 @@ export default class Starback implements StarbackInterface {
     this.ctx.fillText(`${this.fps} fps`, 10, 10)
   }
 
-
   /**
    * Canvas render function
-   * @param {DOMHighResTimeStamp} timestamp 
+   * @param {DOMHighResTimeStamp} timestamp
    */
   private render(timestamp) {
     if (!this.lastCalledTime) this.lastCalledTime = timestamp
@@ -178,6 +177,4 @@ export default class Starback implements StarbackInterface {
 
     requestAnimationFrame((t) => this.render(t))
   }
-
-  
 }
