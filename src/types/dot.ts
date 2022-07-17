@@ -34,7 +34,7 @@ class Dot implements StarType {
       let star = this.stars[i]
 
       this.ctx.beginPath()
-      this.ctx.fillStyle = star.color || this.config.starColor
+      this.ctx.fillStyle = star.color
       this.ctx.save()
       this.ctx.globalAlpha = star.opacity
       this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2)
