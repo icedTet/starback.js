@@ -14,7 +14,7 @@ export interface StarDotConfig extends BaseConfig {
   direction?: number
   randomOpacity?: boolean | [number, number]
   speed?: number | number[]
-  starColor?: String
+  starColor?: String | String[]
 }
 
 export interface StarLineConfig extends BaseConfig {
