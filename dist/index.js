@@ -120,7 +120,8 @@ var Dot = class {
         y,
         size: this.randomSize(),
         opacity: this.randomOpacity(),
-        speed: this.randomSpeed()
+        speed: this.randomSpeed(),
+        color: Array.isArray(this.config.starColor) ? randomArr(this.config.starColor) : this.config.starColor
       };
       return this.stars.push(newStar);
     }
