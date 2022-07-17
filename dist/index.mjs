@@ -35,7 +35,7 @@ var Dot = class {
     for (let i = 0; i < this.stars.length; i++) {
       let star = this.stars[i];
       this.ctx.beginPath();
-      this.ctx.fillStyle = Array.isArray(this.config.starColor) ? this.config.starColor[~~Math.random() * this.config.starColor.length] : this.config.starColor;
+      this.ctx.fillStyle = star.color || this.config.starColor;
       this.ctx.save();
       this.ctx.globalAlpha = star.opacity;
       this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
@@ -107,7 +107,8 @@ var Dot = class {
         y,
         size: this.randomSize(),
         opacity: this.randomOpacity(),
-        speed: this.randomSpeed()
+        speed: this.randomSpeed(),
+        color: Array.isArray(this.config.starColor) ? randomArr(this.config.starColor) : this.config.starColor
       });
     }
   }
