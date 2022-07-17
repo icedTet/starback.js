@@ -60,7 +60,7 @@ declare class Dot implements StarType {
     ctx: any;
     constructor(canvas: any, config: any);
     draw(): void;
-    update(): void;
+    update(speedMultiplier?: number): void;
     generate(amount: any, location?: any): number;
     randomSize(): any;
     randomOpacity(): string | 1;
@@ -75,6 +75,7 @@ declare class Line implements StarType {
     stars: any[];
     config: StarLineConfig;
     direction: number;
+    speedMultiplier: number;
     /** @type {HTMLCanvasElement} */
     canvas: any;
     /** @type {CanvasRenderingContext2D} */
@@ -83,6 +84,7 @@ declare class Line implements StarType {
     draw(): void;
     update(): void;
     generate(): any[];
+    setSpeedMultiplier(multiplier: number): void;
 }
 
 /**

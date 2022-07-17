@@ -15,7 +15,7 @@
     "dev": "nr tsup --watch",
     "webpack": "webpack --mode production",
     "tsup": "tsup src/index.ts --format esm,cjs,iife --dts --no-splitting --clean --dts-resolve",
-    "build": "nr tsup --minify && nr webpack && cp dist/starback.js docs",
+    "build": "tsup --minify && webpack && cp dist/starback.js docs",
     "prepublishOnly": "nr build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "release": "bumpp package.json --tag --commit --push && npm publish --access public"
